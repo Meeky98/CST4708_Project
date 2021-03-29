@@ -1,2 +1,2 @@
 # CST4708_Project
-Create account and checkout tab code for my online webstore project
+The create account and checkout tab code for my online webstore project using C# and Microsoft Visual Studio.

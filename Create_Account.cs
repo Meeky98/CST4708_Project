@@ -21,14 +21,19 @@ namespace CST4708_Project
         
         private void button1_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrWhitespace(tb_email)(tb_fName)(tb_lName)(tb_Login)(tb_password))
+            if (String.IsNullOrWhiteSpace(tb_email.Text ?? tb_fName.Text ?? tb_lName.Text ?? tb_Login.Text ?? tb_password.Text))
                 {
                     MessageBox.Show("Please fill in all the information");
                 }
             else
                 {
-                    UserTable.rowInsert(tb_Login.Text, tb_password.Text, tb_fName.Text, tb_lName.Text, tb_email.Text);
+                try { UserTable.rowInsert(tb_Login.Text, tb_password.Text, tb_fName.Text, tb_lName.Text, tb_email.Text);
                     MessageBox.Show("Account Created");
+                }
+                catch (Exception ex) {
+                    MessageBox.Show("Account with this loging already exists");
+                }
+                   
                 }
             
         }

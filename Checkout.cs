@@ -16,13 +16,13 @@ namespace CST_Project_Checkout_Page
 {
     public partial class Checkout : Form
     {
-        ArrayList orderId;
+        ArrayList orderId, AmountList;
 
-        public Checkout(ArrayList orderId, double total, String userId)
+        public Checkout(ArrayList orderId, double total, String userId, ArrayList AmountList)
         {
             InitializeComponent();
             userID = userId;
-
+            this.AmountList = AmountList;
             this.orderId = orderId;
             label14.Text = total.ToString();
             
@@ -37,15 +37,6 @@ namespace CST_Project_Checkout_Page
 
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label10_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -64,7 +55,7 @@ namespace CST_Project_Checkout_Page
             Random rnd = new Random();
             int order = rnd.Next(10000);
 
-            if (String.IsNullOrWhiteSpace(textBox1)(textBox2)(textBox3)(textBox4)(textBox5)(textBox6)(textBox7))
+            if (String.IsNullOrWhiteSpace(textBox1.Text?? textBox2.Text?? textBox3.Text ??textBox4.Text??textBox5.Text??textBox6.Text?? textBox7.Text))
                 {
                     MessageBox.Show("Please enter all information");
                 }
@@ -80,13 +71,13 @@ namespace CST_Project_Checkout_Page
                                 "SET is_purchased ='Yes' " +
                                 "where order_id=" + orderId[i].ToString();
                           
-                     MessageBox.Show(orderId[i].ToString());
+                     
                      mycmd.ExecuteNonQuery();
 
                      myadapter.UpdateCommand = mycmd;
                      mycmd.CommandText = "UPDATE Product_T " +
-                                "SET on_hand = on_hand - 1 " +
-                                "Where product_id=" + product_id[i].ToInt();
+                                "SET on_hand = on_hand - "+AmountList[i].ToString()+" " +
+                                "Where product_id in (Select product_id from Order_T where order_id=" + orderId[i].ToString()+")";
                     mycmd.ExecuteNonQuery();
 
                         }
@@ -97,9 +88,10 @@ namespace CST_Project_Checkout_Page
             this.Hide();
             Main_menu m1 = new Main_menu(userID);
             m1.ShowDialog();
-                }
-          
             this.Close();
+            }
+          
+            
 
         }
 
